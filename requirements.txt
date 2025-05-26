@@ -1,0 +1,5 @@
+viser
+dataclass-wizard[yaml]
+git+https://github.com/clementjambon/deepdish.git
+torch
+wandb
