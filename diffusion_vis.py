@@ -10,6 +10,7 @@ import viser.extras
 import viser.transforms as tf
 
 from utils.trajectory_handler import TrajectoryHandler
+from utils.vis_utils import get_cmap
 
 
 def main(
@@ -78,12 +79,18 @@ def main(
         uvgrid_coord = uvgrid.coord[i_batch][~uvgrid.empty_mask[i_batch]]
         uvgrid_grid_mask = uvgrid.grid_mask[i_batch][~uvgrid.empty_mask[i_batch]]
         valid_uvgrid_coord = uvgrid_coord[uvgrid_grid_mask]
+        valid_uvgrid_colors = (
+            get_cmap(uvgrid_coord.shape[0])[:, None, None, :]
+            .repeat(uvgrid_coord.shape[1], axis=1)
+            .repeat(uvgrid_coord.shape[2], axis=2)
+        )
+        valid_uvgrid_colors = valid_uvgrid_colors[uvgrid_grid_mask]
         points = valid_uvgrid_coord.reshape(-1, 3)
         point_nodes.append(
             server.scene.add_point_cloud(
                 name=f"/traj_{i_traj}/{t}/point_cloud",
                 points=points,
-                colors=np.zeros_like(points),
+                colors=valid_uvgrid_colors,
                 point_size=gui_point_size.value,
                 point_shape="rounded",
             )
