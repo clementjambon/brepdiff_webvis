@@ -47,6 +47,100 @@ class UvGrid:
         # Easy: just instanciate with everything in data!
         return UvGrid(**data)
 
+    def meshify(
+        self, face_idx: int, use_grid_mask: bool = True, batch_idx: Optional[int] = None
+    ) -> Tuple[np.ndarray, np.ndarray]:
+        """Creates uv grid mesh for a face
+
+        Args:
+            face_idx: Index of face/primitive to meshify
+            use_grid_mask: Whether to use grid mask to filter vertices
+            batch_idx: Which batch item to meshify. If None, assumes unbatched data
+        Returns:
+            - vertices: array of V x 3
+            - faces: array of idx of F x 3
+        """
+        # Handle batched case by selecting correct batch
+        is_batched = len(self.coord.shape) == 5
+        if is_batched:
+            if batch_idx is None:
+                raise ValueError("batch_idx must be provided for batched UvGrid")
+            coord = self.coord[batch_idx]
+            grid_mask = (
+                self.grid_mask[batch_idx] if self.grid_mask is not None else None
+            )
+        else:
+            coord = self.coord
+            grid_mask = self.grid_mask
+
+        if use_grid_mask and (grid_mask is not None):
+            grid_mask = grid_mask[face_idx]
+        else:
+            grid_mask = np.ones(coord[face_idx].shape[:2], dtype=bool)
+
+        coord = coord[face_idx]
+
+        # create valid vertices from grid_mask and mapping from uv to vertex idx
+        vertices, faces = [], []
+        uv2vertex_idx = -1 * np.ones(coord.shape[:2], dtype=np.int32)
+        for i in range(coord.shape[0]):
+            for j in range(coord.shape[1]):
+                if not grid_mask[i, j]:
+                    continue
+                uv2vertex_idx[i, j] = len(vertices)
+                vertices.append(coord[i, j])
+
+        # create faces
+        for i in range(coord.shape[0] - 1):
+            for j in range(coord.shape[1] - 1):
+                if not grid_mask[i, j]:
+                    continue
+                if not grid_mask[i + 1, j + 1]:
+                    continue
+                if grid_mask[i + 1, j]:
+                    faces.append(
+                        (
+                            uv2vertex_idx[i, j],
+                            uv2vertex_idx[i + 1, j],
+                            uv2vertex_idx[i + 1, j + 1],
+                        )
+                    )
+                if grid_mask[i, j + 1]:
+                    faces.append(
+                        (
+                            uv2vertex_idx[i, j],
+                            uv2vertex_idx[i + 1, j + 1],
+                            uv2vertex_idx[i, j + 1],
+                        )
+                    )
+
+        # TODO: this is a diy fix when there are no faces
+        if len(faces) == 0:
+            vertices = np.zeros((3, 3))
+            faces = np.array([[0, 1, 2]]).astype(np.int64)
+        else:
+            vertices = np.stack(vertices, axis=0)
+            faces = np.stack(faces, axis=0)
+
+        return vertices, faces
+
+    def meshify_all(
+        self, use_grid_mask: bool = True, batch_idx: int = None
+    ) -> Tuple[np.ndarray, np.ndarray]:
+        all_vertices = []
+        all_faces = []
+        all_indices = []
+        sum_vertices = 0
+        for face_idx in np.argwhere(~self.empty_mask[batch_idx]):
+            vertices, faces = self.meshify(
+                face_idx.item(), use_grid_mask=use_grid_mask, batch_idx=batch_idx
+            )
+            all_vertices.append(vertices)
+            all_faces.append(faces + sum_vertices)
+            all_indices.append(np.ones(len(all_vertices), dtype=np.int32))
+            sum_vertices += len(vertices)
+        return np.concat(all_vertices), np.concat(all_faces), np.concat(all_indices)
+
 
 def uncat_uvgrids(uvgrids: UvGrid, cat_dim: int = 0, stride: int = 1) -> List[UvGrid]:
     """

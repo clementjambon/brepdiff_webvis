@@ -10,7 +10,7 @@ import viser.extras
 import viser.transforms as tf
 
 from utils.trajectory_handler import TrajectoryHandler
-from utils.vis_utils import get_cmap
+from utils.vis_utils import get_cmap, DEFAULT_COLORMAP
 
 
 def main(
@@ -72,6 +72,9 @@ def main(
             # Toggle point visibility.
             point_nodes[current_timestep][current_batch].visible = True
             point_nodes[prev_timestep][current_batch].visible = False
+            # Toggle mesh visibility.
+            mesh_nodes[current_timestep][current_batch].visible = True
+            mesh_nodes[prev_timestep][current_batch].visible = False
         prev_timestep = current_timestep
         server.flush()  # Optional!
 
@@ -85,6 +88,10 @@ def main(
             # Toggle point visibility.
             point_nodes[current_timestep][current_batch].visible = True
             point_nodes[current_timestep][prev_batch].visible = False
+            # Toggle mesh visibility.
+            mesh_nodes[current_timestep][current_batch].visible = True
+            mesh_nodes[prev_timestep][current_batch].visible = False
+
         prev_batch = current_batch
         server.flush()  # Optional!
 
@@ -94,9 +101,15 @@ def main(
         gui_framerate.value = int(gui_framerate_options.value)
 
     point_nodes: List[List[viser.PointCloudHandle]] = []
+    mesh_nodes: List[List[viser.MeshHandle]] = []
     for t, uvgrid in tqdm(trajectory.traj_uv_grids.items()):
         t_point_nodes = []
+        t_mesh_nodes = []
         for i_batch in range(uvgrid.coord.shape[0]):
+
+            # ==========
+            # POINTS
+            # ==========
 
             # Place the point cloud in the frame.
             uvgrid_coord = uvgrid.coord[i_batch][~uvgrid.empty_mask[i_batch]]
@@ -118,12 +131,38 @@ def main(
                     point_shape="circle",
                 )
             )
+
+            # ==========
+            # MESHES
+            # ==========
+            vertices, faces, indices = uvgrid.meshify_all(
+                use_grid_mask=True, batch_idx=i_batch
+            )
+            # vertex_colors = DEFAULT_COLORMAP[indices]
+            # vertices, faces = uvgrid.meshify(0, use_grid_mask=True, batch_idx=i_batch)
+            t_mesh_nodes.append(
+                server.scene.add_mesh_simple(
+                    name=f"/traj_{i_traj}/{i_batch}/{t}/mesh",
+                    vertices=vertices,
+                    faces=faces,
+                    # wireframe=True,
+                    opacity=0.3,
+                )
+            )
+
         point_nodes.append(t_point_nodes)
+        mesh_nodes.append(t_mesh_nodes)
 
     # Hide all but the current pc.
-    for i_t, t_point_nodes in enumerate(point_nodes):
-        for i_batch, point_node in enumerate(t_point_nodes):
+    for i_t, (t_point_nodes, t_mesh_nodes) in enumerate(zip(point_nodes, mesh_nodes)):
+        for i_batch, (point_node, mesh_node) in enumerate(
+            zip(t_point_nodes, t_mesh_nodes)
+        ):
             point_node.visible = (i_t == gui_timestep.value) and (
+                i_batch == gui_batch.value
+            )
+            # point_node.visible = False
+            mesh_node.visible = (i_t == gui_timestep.value) and (
                 i_batch == gui_batch.value
             )
 
@@ -132,11 +171,7 @@ def main(
     prev_batch = gui_batch.value
     while True:
 
-        # Update point size of both this timestep and the next one! There's
-        # redundancy here, but this will be optimized out internally by viser.
-        #
-        # We update the point size for the next timestep so that it will be
-        # immediately available when we toggle the visibility.
+        # Update point size of this timestep
         point_nodes[gui_timestep.value][
             gui_batch.value
         ].point_size = gui_point_size.value
