@@ -11,6 +11,7 @@ import viser.transforms as tf
 
 from utils.trajectory_handler import TrajectoryHandler
 from utils.vis_utils import get_cmap, DEFAULT_COLORMAP
+from utils.trajectory_nodes import create_nodes
 
 
 def main(
@@ -90,7 +91,7 @@ def main(
             point_nodes[current_timestep][prev_batch].visible = False
             # Toggle mesh visibility.
             mesh_nodes[current_timestep][current_batch].visible = True
-            mesh_nodes[prev_timestep][current_batch].visible = False
+            mesh_nodes[current_timestep][prev_batch].visible = False
 
         prev_batch = current_batch
         server.flush()  # Optional!
@@ -100,58 +101,7 @@ def main(
     def _(_) -> None:
         gui_framerate.value = int(gui_framerate_options.value)
 
-    point_nodes: List[List[viser.PointCloudHandle]] = []
-    mesh_nodes: List[List[viser.MeshHandle]] = []
-    for t, uvgrid in tqdm(trajectory.traj_uv_grids.items()):
-        t_point_nodes = []
-        t_mesh_nodes = []
-        for i_batch in range(uvgrid.coord.shape[0]):
-
-            # ==========
-            # POINTS
-            # ==========
-
-            # Place the point cloud in the frame.
-            uvgrid_coord = uvgrid.coord[i_batch][~uvgrid.empty_mask[i_batch]]
-            uvgrid_grid_mask = uvgrid.grid_mask[i_batch][~uvgrid.empty_mask[i_batch]]
-            valid_uvgrid_coord = uvgrid_coord[uvgrid_grid_mask]
-            valid_uvgrid_colors = (
-                get_cmap(uvgrid_coord.shape[0])[:, None, None, :]
-                .repeat(uvgrid_coord.shape[1], axis=1)
-                .repeat(uvgrid_coord.shape[2], axis=2)
-            )
-            valid_uvgrid_colors = valid_uvgrid_colors[uvgrid_grid_mask]
-            points = valid_uvgrid_coord.reshape(-1, 3)
-            t_point_nodes.append(
-                server.scene.add_point_cloud(
-                    name=f"/traj_{i_traj}/{i_batch}/{t}/point_cloud",
-                    points=points,
-                    colors=valid_uvgrid_colors,
-                    point_size=gui_point_size.value,
-                    point_shape="circle",
-                )
-            )
-
-            # ==========
-            # MESHES
-            # ==========
-            vertices, faces, indices = uvgrid.meshify_all(
-                use_grid_mask=True, batch_idx=i_batch
-            )
-            # vertex_colors = DEFAULT_COLORMAP[indices]
-            # vertices, faces = uvgrid.meshify(0, use_grid_mask=True, batch_idx=i_batch)
-            t_mesh_nodes.append(
-                server.scene.add_mesh_simple(
-                    name=f"/traj_{i_traj}/{i_batch}/{t}/mesh",
-                    vertices=vertices,
-                    faces=faces,
-                    # wireframe=True,
-                    opacity=0.3,
-                )
-            )
-
-        point_nodes.append(t_point_nodes)
-        mesh_nodes.append(t_mesh_nodes)
+    point_nodes, mesh_nodes = create_nodes(trajectory, server, show_mesh=True)
 
     # Hide all but the current pc.
     for i_t, (t_point_nodes, t_mesh_nodes) in enumerate(zip(point_nodes, mesh_nodes)):
