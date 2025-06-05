@@ -54,7 +54,11 @@ def create_nodes(
             points = valid_uvgrid_coord.reshape(-1, 3)
             t_point_nodes.append(
                 server.scene.add_point_cloud(
-                    name=f"/traj/{i_batch}/{t}/point_cloud",
+                    name=(
+                        "point_cloud"
+                        if serializer is not None
+                        else f"/traj/{i_batch}/{t}/point_cloud"
+                    ),
                     points=points,
                     colors=valid_uvgrid_colors,
                     point_size=0.01,
@@ -73,7 +77,11 @@ def create_nodes(
                 # vertices, faces = uvgrid.meshify(0, use_grid_mask=True, batch_idx=i_batch)
                 t_mesh_nodes.append(
                     server.scene.add_mesh_simple(
-                        name=f"/traj/{i_batch}/{t}/mesh",
+                        name=(
+                            "mesh"
+                            if serializer is not None
+                            else f"/traj/{i_batch}/{t}/mesh"
+                        ),
                         vertices=vertices,
                         faces=faces,
                         # wireframe=True,
