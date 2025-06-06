@@ -18,7 +18,7 @@ def main(
     data_path: str = "data/interp_0001.traj",
     share: bool = False,
     i_traj: int = 0,
-    exclude: List[int] = []
+    exclude: List[int] = [],
 ) -> None:
     server = viser.ViserServer()
     if share:
@@ -47,8 +47,6 @@ def main(
 
     prev_batch = gui_batch.value
 
-
-
     # Toggle frame visibility when the batch slider changes.
     @gui_batch.on_update
     def _(_) -> None:
@@ -74,25 +72,26 @@ def main(
     mesh_nodes = []
     uvgrid = trajectory.traj_uv_grids[0]
     for i_batch in range(uvgrid.coord.shape[0]):
-        if trajectory.brep_mesh_vertices[i_batch] is not None and trajectory.brep_mesh_faces[i_batch] is not None and not i_batch in exclude:
-            mesh_nodes.append(server.scene.add_mesh_simple(
-                name=(
-                    f"/traj/{i_batch}/mesh"
-                ),
-                vertices=trajectory.brep_mesh_vertices[i_batch],
-                faces=trajectory.brep_mesh_faces[i_batch],
-                # wireframe=True,
-                # opacity=0.3,
-            ))
+        if (
+            trajectory.brep_mesh_vertices[i_batch] is not None
+            and trajectory.brep_mesh_faces[i_batch] is not None
+            and not i_batch in exclude
+        ):
+            mesh_nodes.append(
+                server.scene.add_mesh_simple(
+                    name=(f"/traj/{i_batch}/mesh"),
+                    vertices=trajectory.brep_mesh_vertices[i_batch],
+                    faces=trajectory.brep_mesh_faces[i_batch],
+                    flat_shading=True,
+                )
+            )
         else:
-            mesh_nodes.append(None)    
+            mesh_nodes.append(None)
 
     # Hide all but the current pc.
     for i_batch, mesh_node in enumerate(mesh_nodes):
         if mesh_node is not None:
-            mesh_node.visible = (
-                i_batch == gui_batch.value
-            )
+            mesh_node.visible = i_batch == gui_batch.value
 
     # Playback update loop.
     prev_batch = gui_batch.value
