@@ -68,23 +68,24 @@ class Trajectory:
             i_t=i_t,
         )
 
-        # if "brep_mesh_vertices" in data and "brep_mesh_faces" in data:
+        if "brep_mesh_vertices" in data and "brep_mesh_faces" in data:
 
-        #     if isinstance(data["brep_mesh_vertices"], list) and isinstance(
-        #         data["brep_mesh_faces"], list
-        #     ):
-        #         trajectory.brep_mesh_vertices = data["brep_mesh_vertices"]
-        #         trajectory.brep_mesh_faces = data["brep_mesh_faces"]
-        #     # DEPRECATED but implemented for backward compatibility
-        #     elif isinstance(data["brep_mesh_vertices"], np.ndarray) and isinstance(
-        #         data["brep_mesh_faces"], np.ndarray
-        #     ):
-        #         trajectory.brep_mesh_vertices = [data["brep_mesh_vertices"]] + [
-        #             None
-        #         ] * (tmp_uv_grids.coord.shape[0] - 1)
-        #         trajectory.brep_mesh_faces = [data["brep_mesh_faces"]] + [None] * (
-        #             tmp_uv_grids.coord.shape[0] - 1
-        #         )
+            if isinstance(data["brep_mesh_vertices"], list) and isinstance(
+                data["brep_mesh_faces"], list
+            ):
+                trajectory.brep_mesh_vertices = data["brep_mesh_vertices"]
+                trajectory.brep_mesh_faces = data["brep_mesh_faces"]
+            # DEPRECATED but implemented for backward compatibility
+            elif isinstance(data["brep_mesh_vertices"], np.ndarray) and isinstance(
+                data["brep_mesh_faces"], np.ndarray
+            ):
+                raise ValueError("")
+                trajectory.brep_mesh_vertices = [data["brep_mesh_vertices"]] + [
+                    None
+                ] * (tmp_uv_grids.coord.shape[0] - 1)
+                trajectory.brep_mesh_faces = [data["brep_mesh_faces"]] + [None] * (
+                    tmp_uv_grids.coord.shape[0] - 1
+                )
 
         return trajectory
 
