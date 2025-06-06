@@ -17,10 +17,12 @@ from utils.trajectory_nodes import create_nodes
 
 def main(
     data_path: str = "data/interp_0001.traj",
+    recording_path: str = "recordings/recording.viser",
     share: bool = False,
     i_traj: int = 0,
     i_batch: int = 0,
-    framerate: int = 5,
+    framerate: int = 10,
+    hold: float = 1.5,
 ) -> None:
     server = viser.ViserServer()
     if share:
@@ -40,10 +42,11 @@ def main(
         framerate=framerate,
         serializer=serializer,
     )
+    serializer.insert_sleep(hold)
 
     # Save the complete animation.
     data = serializer.serialize()  # Returns bytes
-    Path("recordings/recording.viser").write_bytes(data)
+    Path(recording_path).write_bytes(data)
 
 
 if __name__ == "__main__":
