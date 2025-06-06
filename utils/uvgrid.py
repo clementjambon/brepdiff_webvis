@@ -139,7 +139,7 @@ class UvGrid:
             all_faces.append(faces + sum_vertices)
             all_indices.append(np.ones(len(all_vertices), dtype=np.int32))
             sum_vertices += len(vertices)
-        return np.concat(all_vertices), np.concat(all_faces), np.concat(all_indices)
+        return np.concatenate(all_vertices), np.concatenate(all_faces), np.concatenate(all_indices)
 
 
 def uncat_uvgrids(uvgrids: UvGrid, cat_dim: int = 0, stride: int = 1) -> List[UvGrid]:

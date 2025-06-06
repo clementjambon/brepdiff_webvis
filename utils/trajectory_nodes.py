@@ -1,5 +1,5 @@
 import time
-from typing import List
+from typing import List, Optional
 
 import numpy as np
 import tyro
@@ -18,10 +18,10 @@ def create_nodes(
     trajectory: Trajectory,
     server: viser.ViserServer,
     show_mesh: bool = False,
-    queried_i_batch: int | None = None,
-    queried_t: int | None = None,
+    queried_i_batch: Optional[int] = None,
+    queried_t: Optional[int] = None,
     framerate: int = 5,
-    serializer: viser.infra.StateSerializer | None = None,
+    serializer: Optional[viser.infra.StateSerializer] = None,
 ):
 
     point_nodes: List[List[viser.PointCloudHandle]] = []
