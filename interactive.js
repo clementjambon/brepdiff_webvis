@@ -2,7 +2,7 @@ const results = [
     [
         "gen_14_1_16",
         [
-            "/viser-client/",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
             "?playbackPath=/recordings/gen_14_1_16.viser",
             // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
             // "&synchronizedVideoTimeOffset=0.0",
@@ -16,7 +16,7 @@ const results = [
     [
         "gen_14_1_17",
         [
-            "/viser-client/",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client",
             "?playbackPath=/recordings/gen_14_1_17.viser",
             // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
             // "&synchronizedVideoTimeOffset=0.0",
@@ -30,7 +30,7 @@ const results = [
     [
         "gen_14_1_20",
         [
-            "/viser-client/",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
             "?playbackPath=/recordings/gen_14_1_20.viser",
             // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
             // "&synchronizedVideoTimeOffset=0.0",
