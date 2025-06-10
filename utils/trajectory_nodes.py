@@ -20,10 +20,11 @@ def create_nodes_from_uvgrids(
     server: viser.ViserServer,
     framerate: int = 5,
     serializer: Optional[viser.infra.StateSerializer] = None,
+    inverted_order: bool = True,
 ):
 
     point_nodes = []
-    for t, uvgrid in tqdm(enumerate(uvgrids)):
+    for t, uvgrid in tqdm(enumerate(uvgrids[:: 1 if inverted_order else -1])):
 
         # ==========
         # POINTS
@@ -68,17 +69,23 @@ def create_nodes(
     queried_t: Optional[int] = None,
     framerate: int = 5,
     serializer: Optional[viser.infra.StateSerializer] = None,
+    inverted_order: bool = True,
 ):
 
     point_nodes: List[List[viser.PointCloudHandle]] = []
     mesh_nodes: List[List[viser.MeshHandle]] = []
-    for t, uvgrid in tqdm(list(trajectory.traj_uv_grids.items())[::-1]):
+    for t, uvgrid in tqdm(
+        list(trajectory.traj_uv_grids.items())[:: -1 if inverted_order else 1]
+    ):
         if queried_t is not None and t != queried_t:
             continue
 
         t_point_nodes = []
         t_mesh_nodes = []
         for i_batch in range(uvgrid.coord.shape[0]):
+
+            if inverted_order:
+                i_batch = uvgrid.coord.shape[0] - 1 - i_batch
 
             if queried_i_batch is not None and i_batch != queried_i_batch:
                 continue
@@ -115,7 +122,7 @@ def create_nodes(
             # ==========
             # MESHES
             # ==========
-            if show_mesh:
+            if False:
                 vertices, faces, indices = uvgrid.meshify_all(
                     use_grid_mask=True, batch_idx=i_batch
                 )

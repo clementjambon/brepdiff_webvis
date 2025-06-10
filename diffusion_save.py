@@ -24,8 +24,10 @@ def main(
     share: bool = False,
     i_traj: int = 0,
     i_batch: int = 0,
+    i_t: int = -1,
     framerate: int = 20,
     hold: float = 1.5,
+    reps: int = 1,
 ) -> None:
     server = viser.ViserServer()
     if share:
@@ -45,19 +47,27 @@ def main(
     # Create serializer.
     serializer = server.get_scene_serializer()
 
-    if os.path.isdir(data_path):
-        create_nodes_from_uvgrids(
-            all_uv_grids, server, framerate=framerate, serializer=serializer
-        )
-    elif os.path.splitext(data_path)[1] == ".traj":
-        create_nodes(
-            trajectory,
-            server,
-            queried_i_batch=i_batch,
-            framerate=framerate,
-            serializer=serializer,
-        )
-    serializer.insert_sleep(hold)
+    inverted_order = True
+
+    for i_rep in range(reps):
+
+        if os.path.isdir(data_path):
+            create_nodes_from_uvgrids(
+                all_uv_grids, server, framerate=framerate, serializer=serializer
+            )
+        elif os.path.splitext(data_path)[1] == ".traj":
+            create_nodes(
+                trajectory,
+                server,
+                queried_i_batch=None if i_t >= 0 else i_batch,
+                queried_t=i_t if i_t >= 0 else None,
+                framerate=framerate,
+                serializer=serializer,
+                inverted_order=inverted_order,
+            )
+        serializer.insert_sleep(hold)
+
+        inverted_order = not inverted_order
 
     # Save the complete animation.
     data = serializer.serialize()  # Returns bytes
