@@ -4,32 +4,38 @@ const results = [
         [
             "/viser-client/",
             "?playbackPath=/recordings/raw_traj/0025.viser",
-            // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
-            // "&synchronizedVideoTimeOffset=0.0",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
             // "&baseSpeed=0.5",
             // "&darkMode",
         ],
         "./recordings/gen_14_1_16.png",
-        "./recordings/raw_traj/0025.mp4",
-        "Generated B-rep"
+        ["./recordings/raw_traj/0025.mp4",
+            "Generated B-rep"]
     ],
     [
         "0111",
         [
             "/viser-client/",
             "?playbackPath=/recordings/raw_traj/0111.viser",
-            // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
-            // "&synchronizedVideoTimeOffset=0.0",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
-            // "&baseSpeed=0.5",
-            // "&darkMode",
         ],
         "./recordings/gen_14_1_16.png",
-        "./recordings/raw_traj/0111.mp4",
-        "Generated B-rep"
+        ["./recordings/raw_traj/0111.mp4",
+            "Generated B-rep"]
+    ],
+    [
+        "0133",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/raw_traj/0111.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/gen_14_1_16.png",
+        ["./recordings/interp/0001.png",
+            "Interpolation"]
     ]
 ];
 
@@ -41,6 +47,11 @@ function initializeResultSelector(resultsElement) {
     const prevButton = selectorElement.querySelector(".results-prev");
     const nextButton = selectorElement.querySelector(".results-next");
     let currentIndex = 0;
+
+    function getExtension(filename) {
+        const idx = filename.lastIndexOf('.');
+        return idx >= 0 ? filename.slice(idx + 1) : '';
+    }
 
     // ===================
     // IFRAME
@@ -81,11 +92,27 @@ function initializeResultSelector(resultsElement) {
         return video;
     }
 
-    function showVideo(src, caption) {
-        const wrapper = resultsElement.querySelector(".video-wrapper");
-        wrapper.innerHTML = "";
-        const video = createVideo(Array.isArray(src) ? src.join("") : src);
-        wrapper.appendChild(video);
+    function createImage(src) {
+        const image = document.createElement("img");
+        console.log("Creating img with src", src);
+        image.src = src;
+        return image;
+    }
+
+    function showVideo(video_payload) {
+        src = video_payload[0];
+        caption = video_payload[1];
+        if (getExtension(src) == "mp4") {
+            const wrapper = resultsElement.querySelector(".video-wrapper");
+            wrapper.innerHTML = "";
+            const video = createVideo(Array.isArray(src) ? src.join("") : src);
+            wrapper.appendChild(video);
+        } else {
+            const wrapper = resultsElement.querySelector(".video-wrapper");
+            wrapper.innerHTML = "";
+            const image = createImage(Array.isArray(src) ? src.join("") : src);
+            wrapper.appendChild(image);
+        }
         const video_caption = resultsElement.querySelector(".video-caption");
         video_caption.innerHTML = caption;
     }
@@ -94,8 +121,6 @@ function initializeResultSelector(resultsElement) {
         const wrapper = resultsElement.querySelector(".video-wrapper");
         wrapper.innerHTML = ""; // Remove iframe from DOM
     }
-
-
 
     function updateSelection(index) {
         if (currentIndex !== index) {
@@ -128,8 +153,8 @@ function initializeResultSelector(resultsElement) {
         history.pushState(null, "", newUrl);
 
         showIframe(results[index][1]);
-        if (results[index].length > 4) {
-            showVideo(results[index][3], results[index][4])
+        if (results[index].length > 3) {
+            showVideo(results[index][3])
         }
     }
 
@@ -173,14 +198,14 @@ function initializeResultSelector(resultsElement) {
             updateSelection(index);
         } else {
             showIframe(results[0][1]);
-            if (results[0].length > 4) {
-                showVideo(results[0][3], results[0][4])
+            if (results[0].length > 3) {
+                showVideo(results[0][3])
             }
         }
     } else {
         showIframe(results[0][1]);
-        if (results[0].length > 4) {
-            showVideo(results[0][3], results[0][4])
+        if (results[0].length > 3) {
+            showVideo(results[0][3])
         }
     }
 }
