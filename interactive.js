@@ -48,7 +48,19 @@ const results = [
         "./recordings/gen_14_1_16.png",
         ["./recordings/interp/0001.png",
             "Interpolation"]
-    ]
+    ],
+    [
+        "autocompletion_teaser",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/autocompletion/teaser.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/gen_14_1_16.png",
+        ["./recordings/raw_traj/0133.mp4",
+            "Completed B-rep"]
+    ],
 ];
 
 function initializeResultSelector(resultsElement) {

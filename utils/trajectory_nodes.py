@@ -70,10 +70,15 @@ def create_nodes(
     framerate: int = 5,
     serializer: Optional[viser.infra.StateSerializer] = None,
     inverted_order: bool = True,
+    frozen_uvgrid_color: np.ndarray = np.array([1.0, 0.0, 0.0]),
 ):
 
     point_nodes: List[List[viser.PointCloudHandle]] = []
     mesh_nodes: List[List[viser.MeshHandle]] = []
+
+    # Get the zero uvgrid for frozen primitives
+    uvgrid_zero = trajectory.traj_uv_grids[0]
+
     for t, uvgrid in tqdm(
         list(trajectory.traj_uv_grids.items())[:: -1 if inverted_order else 1]
     ):
@@ -94,16 +99,38 @@ def create_nodes(
             # POINTS
             # ==========
 
+            actual_frozen_prims = np.array(trajectory.frozen_prims)[
+                ~uvgrid.empty_mask[i_batch]
+            ]
+            uvgrid_zero_coord = uvgrid_zero.coord[i_batch][~uvgrid.empty_mask[i_batch]]
+            uvgrid_zero_grid_mask = uvgrid_zero.grid_mask[i_batch][
+                ~uvgrid.empty_mask[i_batch]
+            ]
+            uvgrid_zero_colors = (
+                frozen_uvgrid_color[None, :]
+                .repeat(uvgrid_zero_coord.shape[0], axis=0)[:, None, None, :]
+                .repeat(uvgrid_zero_coord.shape[1], axis=1)
+                .repeat(uvgrid_zero_coord.shape[2], axis=2)
+            )
+
             # Place the point cloud in the frame.
             uvgrid_coord = uvgrid.coord[i_batch][~uvgrid.empty_mask[i_batch]]
             uvgrid_grid_mask = uvgrid.grid_mask[i_batch][~uvgrid.empty_mask[i_batch]]
-            valid_uvgrid_coord = uvgrid_coord[uvgrid_grid_mask]
-            valid_uvgrid_colors = (
+
+            uvgrid_colors = (
                 get_cmap(uvgrid_coord.shape[0])[:, None, None, :]
                 .repeat(uvgrid_coord.shape[1], axis=1)
                 .repeat(uvgrid_coord.shape[2], axis=2)
             )
-            valid_uvgrid_colors = valid_uvgrid_colors[uvgrid_grid_mask]
+
+            uvgrid_coord[actual_frozen_prims] = uvgrid_zero_coord[actual_frozen_prims]
+            uvgrid_colors[actual_frozen_prims] = uvgrid_zero_colors[actual_frozen_prims]
+            uvgrid_grid_mask[actual_frozen_prims] = uvgrid_zero_grid_mask[
+                actual_frozen_prims
+            ]
+            valid_uvgrid_coord = uvgrid_coord[uvgrid_grid_mask]
+            valid_uvgrid_colors = uvgrid_colors[uvgrid_grid_mask]
+
             points = valid_uvgrid_coord.reshape(-1, 3)
             t_point_nodes.append(
                 server.scene.add_point_cloud(
