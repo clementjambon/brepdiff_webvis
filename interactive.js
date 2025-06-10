@@ -2,8 +2,8 @@ const results = [
     [
         "0025",
         [
-            "/viser-client/",
-            "?playbackPath=/recordings/raw_traj/0025.viser",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/raw_traj/0025.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
             // "&baseSpeed=0.5",
@@ -17,8 +17,8 @@ const results = [
     [
         "0111",
         [
-            "/viser-client/",
-            "?playbackPath=/recordings/raw_traj/0111.viser",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/raw_traj/0111.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
@@ -30,8 +30,8 @@ const results = [
     [
         "0133",
         [
-            "/viser-client/",
-            "?playbackPath=/recordings/raw_traj/0111.viser",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/raw_traj/0111.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
@@ -43,8 +43,8 @@ const results = [
     [
         "interp_teaser",
         [
-            "/viser-client/",
-            "?playbackPath=/recordings/interp/teaser.viser",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/interp/teaser.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
@@ -56,8 +56,8 @@ const results = [
     [
         "autocompletion_teaser",
         [
-            "/viser-client/",
-            "?playbackPath=/recordings/autocompletion/teaser.viser",
+            "/https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/autocompletion/teaser.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
