@@ -136,6 +136,26 @@ code {
     background: #000;
 }
 
+.video-wrapper {
+    position: fixed;
+    z-index: 2;
+    top: 0.75em;
+    left: 0.75em;
+    border: 0.2rem solid rgb(255, 255, 255);
+    overflow: hidden;
+    border-radius: 0.3rem;
+    padding: 0px;
+}
+
+.results video {
+    width: 25rem;
+    max-width: 23vw;
+    min-width: 10em;
+    aspect-ratio: 1 / 1;
+    margin: 0px;
+    display: block;
+}
+
 .results-inner {
     display: flex;
     flex-direction: column;

@@ -1,9 +1,51 @@
 const results = [
+    // [
+    //     "gen_14_1_16",
+    //     [
+    //         "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+    //         "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_16.viser",
+    //         // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
+    //         // "&synchronizedVideoTimeOffset=0.0",
+    //         "&initialCameraPosition=0.0,-1.0,1.0",
+    //         "&initialCameraLookAt=0.0,0.0,0.0",
+    //         // "&baseSpeed=0.5",
+    //         // "&darkMode",
+    //     ],
+    //     "./recordings/gen_14_1_16.png",
+    // ],
+    // [
+    //     "gen_14_1_17",
+    //     [
+    //         "https://clementjambon.github.io/brepdiff_webvis/viser-client",
+    //         "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_17.viser",
+    //         // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
+    //         // "&synchronizedVideoTimeOffset=0.0",
+    //         "&initialCameraPosition=0.0,-1.0,1.0",
+    //         "&initialCameraLookAt=0.0,0.0,0.0",
+    //         // "&baseSpeed=0.5",
+    //         // "&darkMode",
+    //     ],
+    //     "./recordings/gen_14_1_17.png",
+    // ],
+    // [
+    //     "gen_14_1_20",
+    //     [
+    //         "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+    //         "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_20.viser",
+    //         // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
+    //         // "&synchronizedVideoTimeOffset=0.0",
+    //         "&initialCameraPosition=0.0,-1.0,1.0",
+    //         "&initialCameraLookAt=0.0,0.0,0.0",
+    //         // "&baseSpeed=0.5",
+    //         // "&darkMode",
+    //     ],
+    //     "./recordings/gen_14_1_20.png",
+    // ],
     [
-        "gen_14_1_16",
+        "0025",
         [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_16.viser",
+            "/viser-client/",
+            "?playbackPath=/recordings/raw_traj/0025.viser",
             // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
             // "&synchronizedVideoTimeOffset=0.0",
             "&initialCameraPosition=0.0,-1.0,1.0",
@@ -12,35 +54,9 @@ const results = [
             // "&darkMode",
         ],
         "./recordings/gen_14_1_16.png",
-    ],
-    [
-        "gen_14_1_17",
-        [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_17.viser",
-            // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
-            // "&synchronizedVideoTimeOffset=0.0",
-            "&initialCameraPosition=0.0,-1.0,1.0",
-            "&initialCameraLookAt=0.0,0.0,0.0",
-            // "&baseSpeed=0.5",
-            // "&darkMode",
-        ],
-        "./recordings/gen_14_1_17.png",
-    ],
-    [
-        "gen_14_1_20",
-        [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_20.viser",
-            // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
-            // "&synchronizedVideoTimeOffset=0.0",
-            "&initialCameraPosition=0.0,-1.0,1.0",
-            "&initialCameraLookAt=0.0,0.0,0.0",
-            // "&baseSpeed=0.5",
-            // "&darkMode",
-        ],
-        "./recordings/gen_14_1_20.png",
-    ],
+        "./recordings/raw_traj/0025.mp4"
+    ]
+
 ];
 
 function initializeResultSelector(resultsElement) {
@@ -51,6 +67,10 @@ function initializeResultSelector(resultsElement) {
     const prevButton = selectorElement.querySelector(".results-prev");
     const nextButton = selectorElement.querySelector(".results-next");
     let currentIndex = 0;
+
+    // ===================
+    // IFRAME
+    // ===================
 
     function createIframe(src) {
         const iframe = document.createElement("iframe");
@@ -71,9 +91,40 @@ function initializeResultSelector(resultsElement) {
         wrapper.innerHTML = ""; // Remove iframe from DOM
     }
 
+    // ===================
+    // VIDEO
+    // ===================
+
+    function createVideo(src) {
+        const video = document.createElement("video");
+        console.log("Creating video with src", src);
+        video.src = src;
+        // video.controls = false; // No control
+        // video.width = 250;
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
+        return video;
+    }
+
+    function showVideo(src) {
+        const wrapper = resultsElement.querySelector(".video-wrapper");
+        wrapper.innerHTML = "";
+        const video = createVideo(Array.isArray(src) ? src.join("") : src);
+        wrapper.appendChild(video);
+    }
+
+    function hideVideo() {
+        const wrapper = resultsElement.querySelector(".video-wrapper");
+        wrapper.innerHTML = ""; // Remove iframe from DOM
+    }
+
+
+
     function updateSelection(index) {
         if (currentIndex !== index) {
             hideIframe(); // Hide previous iframe
+            hideVideo(); // Hide previous video
         }
         currentIndex = index;
         resultsThumbnails
@@ -101,6 +152,9 @@ function initializeResultSelector(resultsElement) {
         history.pushState(null, "", newUrl);
 
         showIframe(results[index][1]);
+        if (results[index].length > 3) {
+            showVideo(results[index][3])
+        }
     }
 
     results.forEach(([label, src, thumbnail], index) => {
@@ -133,6 +187,7 @@ function initializeResultSelector(resultsElement) {
     // Check URL for initial result selection
     const urlParams = new URLSearchParams(window.location.search);
     const initialResult = urlParams.get("result");
+    console.log(results[0].length);
     if (initialResult) {
         const index = results.findIndex(
             (result) =>
@@ -142,9 +197,15 @@ function initializeResultSelector(resultsElement) {
             updateSelection(index);
         } else {
             showIframe(results[0][1]);
+            if (results[0].length > 3) {
+                showVideo(results[0][3])
+            }
         }
     } else {
         showIframe(results[0][1]);
+        if (results[0].length > 3) {
+            showVideo(results[0][3])
+        }
     }
 }
 
