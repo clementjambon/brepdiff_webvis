@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import List, Dict, Tuple, Union, Optional, Any
 
 import numpy as np
+import torch
 
 
 class UvGrid:
@@ -46,6 +47,39 @@ class UvGrid:
     def deserialize(data: Dict[str, Any]) -> UvGrid:
         # Easy: just instanciate with everything in data!
         return UvGrid(**data)
+
+    @staticmethod
+    def load_from_npz_data(
+        npz_data: Dict, max_prims: Union[int, None] = None
+    ) -> UvGrid:
+        """
+        Loads uvgrid from npz_path
+        :param npz_data: Dict loaded from np.load()
+        :return:
+        """
+        if max_prims is not None:
+            uvgrid = UvGrid(
+                coord=npz_data["coord"][:max_prims],
+                grid_mask=npz_data.get("grid_mask")[:max_prims],
+                empty_mask=npz_data["empty_mask"][:max_prims],
+                normal=npz_data.get("normal")[:max_prims],
+                prim_type=(
+                    npz_data.get("prim_type")[:max_prims]
+                    if "prim_type" in npz_data
+                    else None
+                ),
+            )
+        else:
+            uvgrid = UvGrid(
+                coord=npz_data["coord"],
+                grid_mask=npz_data.get("grid_mask"),
+                empty_mask=npz_data["empty_mask"],
+                normal=npz_data.get("normal"),
+                prim_type=(
+                    npz_data.get("prim_type") if "prim_type" in npz_data else None
+                ),
+            )
+        return uvgrid
 
     def meshify(
         self, face_idx: int, use_grid_mask: bool = True, batch_idx: Optional[int] = None
@@ -139,7 +173,75 @@ class UvGrid:
             all_faces.append(faces + sum_vertices)
             all_indices.append(np.ones(len(all_vertices), dtype=np.int32))
             sum_vertices += len(vertices)
-        return np.concatenate(all_vertices), np.concatenate(all_faces), np.concatenate(all_indices)
+        return (
+            np.concatenate(all_vertices),
+            np.concatenate(all_faces),
+            np.concatenate(all_indices),
+        )
+
+
+def concat_uvgrids(uvgrids: List[UvGrid], cat_dim: int = 1) -> UvGrid:
+    """
+    Given list of uvgrids, stack the parameters and create a single uvgrid
+    :param uvgrids:
+    :param cat_dim: dimension over which to concat the uv grids (can be either batch_wise or prim_wise)
+    :return:
+    """
+    if len(uvgrids) == 0:
+        raise ValueError("We need at least 1 uv grid to concatenate!")
+
+    if isinstance(uvgrids[0].coord, np.ndarray):
+        raise ValueError("Concatenation isn't supported for np.ndarray UvGrids!")
+
+    if len(uvgrids[0].coord.shape) != 5:
+        raise ValueError(
+            "Concatenation is only supported for batched uv grids for now!"
+        )
+
+    if cat_dim > 1 or cat_dim < 0:
+        raise ValueError(
+            "Concatenation is only supported along batch or n_prim dimension!"
+        )
+
+    # Just map all the attributes to the same device before!
+    device = uvgrids[0].coord.device
+
+    coord = torch.cat([x.coord.to(device) for x in uvgrids], dim=cat_dim)
+    grid_mask = (
+        torch.cat([x.grid_mask.to(device) for x in uvgrids], dim=cat_dim)
+        if uvgrids[0].grid_mask is not None
+        else None
+    )
+    empty_mask = (
+        torch.cat([x.empty_mask.to(device) for x in uvgrids], dim=cat_dim)
+        if uvgrids[0].empty_mask is not None
+        else None
+    )
+    normal = (
+        torch.cat([x.normal.to(device) for x in uvgrids], dim=cat_dim)
+        if uvgrids[0].normal is not None
+        else None
+    )
+    prim_type = (
+        torch.cat([x.prim_type.to(device) for x in uvgrids], dim=cat_dim)
+        if uvgrids[0].prim_type is not None
+        else None
+    )
+    face_adj = (
+        torch.cat([x.face_adj.to(device) for x in uvgrids], dim=cat_dim)
+        if uvgrids[0].face_adj is not None
+        else None
+    )
+
+    ret = UvGrid(
+        coord=coord,
+        grid_mask=grid_mask,
+        empty_mask=empty_mask,
+        normal=normal,
+        prim_type=prim_type,
+        face_adj=face_adj,
+    )
+    return ret
 
 
 def uncat_uvgrids(uvgrids: UvGrid, cat_dim: int = 0, stride: int = 1) -> List[UvGrid]:

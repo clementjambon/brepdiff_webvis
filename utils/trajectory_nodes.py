@@ -10,8 +10,54 @@ import viser.extras
 import viser.infra
 import viser.transforms as tf
 
+from utils.uvgrid import UvGrid
 from utils.trajectory import Trajectory
 from utils.vis_utils import get_cmap, DEFAULT_COLORMAP
+
+
+def create_nodes_from_uvgrids(
+    uvgrids: List[UvGrid],
+    server: viser.ViserServer,
+    framerate: int = 5,
+    serializer: Optional[viser.infra.StateSerializer] = None,
+):
+
+    point_nodes = []
+    for t, uvgrid in tqdm(enumerate(uvgrids)):
+
+        # ==========
+        # POINTS
+        # ==========
+
+        # Place the point cloud in the frame.
+        uvgrid_coord = uvgrid.coord[~uvgrid.empty_mask]
+        uvgrid_grid_mask = uvgrid.grid_mask[~uvgrid.empty_mask]
+        valid_uvgrid_coord = uvgrid_coord[uvgrid_grid_mask]
+        valid_uvgrid_colors = (
+            get_cmap(uvgrid_coord.shape[0])[:, None, None, :]
+            .repeat(uvgrid_coord.shape[1], axis=1)
+            .repeat(uvgrid_coord.shape[2], axis=2)
+        )
+        valid_uvgrid_colors = valid_uvgrid_colors[uvgrid_grid_mask]
+        points = valid_uvgrid_coord.reshape(-1, 3)
+        point_nodes.append(
+            server.scene.add_point_cloud(
+                name=(
+                    "point_cloud"
+                    if serializer is not None
+                    else f"/traj/{t}/point_cloud"
+                ),
+                points=points,
+                colors=valid_uvgrid_colors,
+                point_size=0.01,
+                point_shape="circle",
+            )
+        )
+
+        if serializer is not None:
+            serializer.insert_sleep(1.0 / framerate)
+
+    return [[node] for node in point_nodes]
 
 
 def create_nodes(
