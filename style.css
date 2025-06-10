@@ -206,6 +206,10 @@ code {
     display: block;
 }
 
+.results-thumbnails div {
+    color: #333;
+}
+
 .results-prev,
 .results-next {
     position: absolute;

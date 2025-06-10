@@ -11,7 +11,8 @@ const results = [
         ],
         "./recordings/gen_14_1_16.png",
         ["./recordings/raw_traj/0025.mp4",
-            "Generated B-rep"]
+            "Generated B-rep"],
+        "G"
     ],
     [
         "0111",
@@ -23,7 +24,8 @@ const results = [
         ],
         "./recordings/gen_14_1_16.png",
         ["./recordings/raw_traj/0111.mp4",
-            "Generated B-rep"]
+            "Generated B-rep"],
+        "G"
     ],
     [
         "0133",
@@ -35,7 +37,8 @@ const results = [
         ],
         "./recordings/gen_14_1_16.png",
         ["./recordings/raw_traj/0133.mp4",
-            "Interpolation"]
+            "Generated B-rep"],
+        "G"
     ],
     [
         "interp_teaser",
@@ -47,7 +50,8 @@ const results = [
         ],
         "./recordings/gen_14_1_16.png",
         ["./recordings/interp/0001.png",
-            "Interpolation"]
+            "Interpolation"],
+        "I"
     ],
     [
         "autocompletion_teaser",
@@ -59,7 +63,8 @@ const results = [
         ],
         "./recordings/gen_14_1_16.png",
         ["./recordings/raw_traj/0133.mp4",
-            "Completed B-rep"]
+            "Autocompleted B-rep"],
+        "A"
     ],
 ];
 
@@ -177,12 +182,10 @@ function initializeResultSelector(resultsElement) {
         history.pushState(null, "", newUrl);
 
         showIframe(results[index][1]);
-        if (results[index].length > 3) {
-            showVideo(results[index][3])
-        }
+        showVideo(results[index][3])
     }
 
-    results.forEach(([label, src, thumbnail], index) => {
+    results.forEach(([label, src, thumbnail, video_payload, tag], index) => {
         const link = document.createElement("a");
         link.href = "#";
         link.setAttribute("data-selected", index === 0 ? "true" : "false");
@@ -198,6 +201,11 @@ function initializeResultSelector(resultsElement) {
         img.title = label;
 
         link.appendChild(img);
+
+        const tag_div = document.createElement("div");
+        tag_div.innerHTML = tag;
+        // tag.style = "position: absolute; z-index: 2; top: 0.0; left: 0.0;";
+        link.appendChild(tag_div);
         resultsThumbnails.appendChild(link);
     });
 
@@ -222,15 +230,11 @@ function initializeResultSelector(resultsElement) {
             updateSelection(index);
         } else {
             showIframe(results[0][1]);
-            if (results[0].length > 3) {
-                showVideo(results[0][3])
-            }
+            showVideo(results[0][3])
         }
     } else {
         showIframe(results[0][1]);
-        if (results[0].length > 3) {
-            showVideo(results[0][3])
-        }
+        showVideo(results[0][3])
     }
 }
 
