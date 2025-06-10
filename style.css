@@ -136,7 +136,7 @@ code {
     background: #000;
 }
 
-.video-wrapper {
+.video-container {
     position: fixed;
     z-index: 2;
     top: 0.75em;

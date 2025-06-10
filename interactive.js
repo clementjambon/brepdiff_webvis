@@ -1,46 +1,4 @@
 const results = [
-    // [
-    //     "gen_14_1_16",
-    //     [
-    //         "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-    //         "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_16.viser",
-    //         // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
-    //         // "&synchronizedVideoTimeOffset=0.0",
-    //         "&initialCameraPosition=0.0,-1.0,1.0",
-    //         "&initialCameraLookAt=0.0,0.0,0.0",
-    //         // "&baseSpeed=0.5",
-    //         // "&darkMode",
-    //     ],
-    //     "./recordings/gen_14_1_16.png",
-    // ],
-    // [
-    //     "gen_14_1_17",
-    //     [
-    //         "https://clementjambon.github.io/brepdiff_webvis/viser-client",
-    //         "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_17.viser",
-    //         // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
-    //         // "&synchronizedVideoTimeOffset=0.0",
-    //         "&initialCameraPosition=0.0,-1.0,1.0",
-    //         "&initialCameraLookAt=0.0,0.0,0.0",
-    //         // "&baseSpeed=0.5",
-    //         // "&darkMode",
-    //     ],
-    //     "./recordings/gen_14_1_17.png",
-    // ],
-    // [
-    //     "gen_14_1_20",
-    //     [
-    //         "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-    //         "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/gen_14_1_20.viser",
-    //         // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
-    //         // "&synchronizedVideoTimeOffset=0.0",
-    //         "&initialCameraPosition=0.0,-1.0,1.0",
-    //         "&initialCameraLookAt=0.0,0.0,0.0",
-    //         // "&baseSpeed=0.5",
-    //         // "&darkMode",
-    //     ],
-    //     "./recordings/gen_14_1_20.png",
-    // ],
     [
         "0025",
         [
@@ -54,9 +12,25 @@ const results = [
             // "&darkMode",
         ],
         "./recordings/gen_14_1_16.png",
-        "./recordings/raw_traj/0025.mp4"
+        "./recordings/raw_traj/0025.mp4",
+        "Generated B-rep"
+    ],
+    [
+        "0111",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/raw_traj/0111.viser",
+            // "&synchronizedVideoOverlay=/recordings/006545_mpii_test.mp4",
+            // "&synchronizedVideoTimeOffset=0.0",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+            // "&baseSpeed=0.5",
+            // "&darkMode",
+        ],
+        "./recordings/gen_14_1_16.png",
+        "./recordings/raw_traj/0111.mp4",
+        "Generated B-rep"
     ]
-
 ];
 
 function initializeResultSelector(resultsElement) {
@@ -107,11 +81,13 @@ function initializeResultSelector(resultsElement) {
         return video;
     }
 
-    function showVideo(src) {
+    function showVideo(src, caption) {
         const wrapper = resultsElement.querySelector(".video-wrapper");
         wrapper.innerHTML = "";
         const video = createVideo(Array.isArray(src) ? src.join("") : src);
         wrapper.appendChild(video);
+        const video_caption = resultsElement.querySelector(".video-caption");
+        video_caption.innerHTML = caption;
     }
 
     function hideVideo() {
@@ -152,8 +128,8 @@ function initializeResultSelector(resultsElement) {
         history.pushState(null, "", newUrl);
 
         showIframe(results[index][1]);
-        if (results[index].length > 3) {
-            showVideo(results[index][3])
+        if (results[index].length > 4) {
+            showVideo(results[index][3], results[index][4])
         }
     }
 
@@ -197,14 +173,14 @@ function initializeResultSelector(resultsElement) {
             updateSelection(index);
         } else {
             showIframe(results[0][1]);
-            if (results[0].length > 3) {
-                showVideo(results[0][3])
+            if (results[0].length > 4) {
+                showVideo(results[0][3], results[0][4])
             }
         }
     } else {
         showIframe(results[0][1]);
-        if (results[0].length > 3) {
-            showVideo(results[0][3])
+        if (results[0].length > 4) {
+            showVideo(results[0][3], results[0][4])
         }
     }
 }
