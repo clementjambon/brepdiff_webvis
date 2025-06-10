@@ -56,7 +56,7 @@ const results = [
     [
         "autocompletion_teaser",
         [
-            "/https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
             "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/autocompletion/teaser.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
