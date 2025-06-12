@@ -67,6 +67,7 @@ def create_nodes(
     show_mesh: bool = False,
     queried_i_batch: Optional[int] = None,
     queried_t: Optional[int] = None,
+    batch_stride: int = 1,
     framerate: int = 5,
     serializer: Optional[viser.infra.StateSerializer] = None,
     inverted_order: bool = True,
@@ -87,7 +88,8 @@ def create_nodes(
 
         t_point_nodes = []
         t_mesh_nodes = []
-        for i_batch in range(uvgrid.coord.shape[0]):
+        practical_batch_indices = list(range(uvgrid.coord.shape[0]))[::batch_stride]
+        for i_batch in practical_batch_indices:
 
             if inverted_order:
                 i_batch = uvgrid.coord.shape[0] - 1 - i_batch

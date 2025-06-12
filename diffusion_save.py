@@ -28,6 +28,8 @@ def main(
     framerate: int = 20,
     hold: float = 1.5,
     reps: int = 1,
+    batch_stride: int = 1,
+    inverted_order: bool = True,
 ) -> None:
     server = viser.ViserServer()
     if share:
@@ -47,8 +49,6 @@ def main(
     # Create serializer.
     serializer = server.get_scene_serializer()
 
-    inverted_order = True
-
     for i_rep in range(reps):
 
         if os.path.isdir(data_path):
@@ -64,6 +64,7 @@ def main(
                 framerate=framerate,
                 serializer=serializer,
                 inverted_order=inverted_order,
+                batch_stride=batch_stride,
             )
         serializer.insert_sleep(hold)
 
