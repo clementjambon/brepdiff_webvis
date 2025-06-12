@@ -1,45 +1,254 @@
 const results = [
-    [
-        "0025",
-        [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/raw_traj/0025.viser",
-            "&initialCameraPosition=0.0,-1.0,1.0",
-            "&initialCameraLookAt=0.0,0.0,0.0",
-            // "&baseSpeed=0.5",
-            // "&darkMode",
-        ],
-        "./recordings/gen_14_1_16.png",
-        ["./recordings/raw_traj/0025.mp4",
-            "Generated B-rep"],
-        "G"
-    ],
+    // [
+    //     "0025",
+    //     [
+    //         "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+    //         "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/raw_traj/0025.viser",
+    //         "&initialCameraPosition=0.0,-1.0,1.0",
+    //         "&initialCameraLookAt=0.0,0.0,0.0",
+    //         // "&baseSpeed=0.5",
+    //         // "&darkMode",
+    //     ],
+    //     "./recordings/gen_14_1_16.png",
+    //     ["./recordings/raw_traj/0025.mp4",
+    //         "Generated B-rep"],
+    //     "G"
+    // ],
     [
         "0111",
         [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/raw_traj/0111.viser",
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0111.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
-        "./recordings/gen_14_1_16.png",
-        ["./recordings/raw_traj/0111.mp4",
+        "./recordings/generation/0111.png",
+        ["./recordings/generation/0111.mp4",
             "Generated B-rep"],
         "G"
     ],
     [
         "0133",
         [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/raw_traj/0111.viser",
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0133.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
-        "./recordings/gen_14_1_16.png",
-        ["./recordings/raw_traj/0133.mp4",
+        "./recordings/generation/0133.png",
+        ["./recordings/generation/0133.mp4",
             "Generated B-rep"],
         "G"
     ],
+    [
+        "0151",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0151.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0151.png",
+        ["./recordings/generation/0151.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0347",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0347.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0347.png",
+        ["./recordings/generation/0347.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0502",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0502.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0502.png",
+        ["./recordings/generation/0502.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0590",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0590.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0590.png",
+        ["./recordings/generation/0590.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0612",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0612.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0612.png",
+        ["./recordings/generation/0612.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0686",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0686.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0686.png",
+        ["./recordings/generation/0686.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0691",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0691.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0691.png",
+        ["./recordings/generation/0691.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0698",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0698.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0698.png",
+        ["./recordings/generation/0698.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0699",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0699.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0699.png",
+        ["./recordings/generation/0699.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0723",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0723.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0723.png",
+        ["./recordings/generation/0723.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0809",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0809.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0809.png",
+        ["./recordings/generation/0809.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0816",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0816.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0816.png",
+        ["./recordings/generation/0816.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0870",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0870.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0870.png",
+        ["./recordings/generation/0870.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0900",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0900.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0900.png",
+        ["./recordings/generation/0900.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0955",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0955.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0955.png",
+        ["./recordings/generation/0955.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    [
+        "0989",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/generation/0989.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/generation/0989.png",
+        ["./recordings/generation/0989.mp4",
+            "Generated B-rep"],
+        "G"
+    ],
+    // Interpolation
     [
         "interp_teaser",
         [
@@ -48,7 +257,7 @@ const results = [
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
-        "./recordings/gen_14_1_16.png",
+        "./recordings/interpolation/teaser_preview_square.png",
         ["./recordings/interpolation/teaser.png",
             "Interpolation"],
         "I"
@@ -61,7 +270,7 @@ const results = [
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
-        "./recordings/gen_14_1_16.png",
+        "./recordings/interpolation/fig12_1_preview_square.png",
         ["./recordings/interpolation/fig12_1.png",
             "Interpolation"],
         "I"
@@ -74,7 +283,7 @@ const results = [
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
-        "./recordings/gen_14_1_16.png",
+        "./recordings/interpolation/fig12_3_preview_square.png",
         ["./recordings/interpolation/fig12_3.png",
             "Interpolation"],
         "I"
@@ -87,11 +296,12 @@ const results = [
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
-        "./recordings/gen_14_1_16.png",
+        "./recordings/interpolation/fig12_4_preview_square.png",
         ["./recordings/interpolation/fig12_4.png",
             "Interpolation"],
         "I"
     ],
+    // Auto Completion
     [
         "autocompletion_teaser",
         [
