@@ -43,13 +43,52 @@ const results = [
     [
         "interp_teaser",
         [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/interp/teaser.viser",
+            "/viser-client/",
+            "?playbackPath=/recordings/interpolation/teaser.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
         "./recordings/gen_14_1_16.png",
-        ["./recordings/interp/0001.png",
+        ["./recordings/interpolation/teaser.png",
+            "Interpolation"],
+        "I"
+    ],
+    [
+        "interp_fig12_1",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/interpolation/fig12_1.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/gen_14_1_16.png",
+        ["./recordings/interpolation/fig12_1.png",
+            "Interpolation"],
+        "I"
+    ],
+    [
+        "interp_fig12_3",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/interpolation/fig12_3.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/gen_14_1_16.png",
+        ["./recordings/interpolation/fig12_3.png",
+            "Interpolation"],
+        "I"
+    ],
+    [
+        "interp_fig12_4",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/interpolation/fig12_4.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/gen_14_1_16.png",
+        ["./recordings/interpolation/fig12_4.png",
             "Interpolation"],
         "I"
     ],
