@@ -21,6 +21,7 @@ def main(
     data_path: str = "data/interp_0001.traj",
     share: bool = False,
     i_traj: int = 0,
+    inverted_order: bool = True,
 ) -> None:
     server = viser.ViserServer()
     if share:
@@ -117,7 +118,9 @@ def main(
         point_nodes = create_nodes_from_uvgrids(all_uv_grids, server)
         mesh_nodes = []
     elif os.path.splitext(data_path)[1] == ".traj":
-        point_nodes, mesh_nodes = create_nodes(trajectory, server, show_mesh=True)
+        point_nodes, mesh_nodes = create_nodes(
+            trajectory, server, show_mesh=True, inverted_order=inverted_order
+        )
 
     # Hide all but the current pc.
     for i_t, (t_point_nodes) in enumerate(point_nodes):
