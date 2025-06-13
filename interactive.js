@@ -303,15 +303,28 @@ const results = [
     ],
     // Auto Completion
     [
-        "autocompletion_teaser",
+        "autocompletion_fig11_first_19",
         [
-            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
-            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/autocompletion/teaser.viser",
+            "/viser-client/",
+            "?playbackPath=/recordings/autocompletion/fig11_first_19.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
-        "./recordings/gen_14_1_16.png",
-        ["./recordings/raw_traj/0133.mp4",
+        "./recordings/autocompletion/fig11_first_19_preview_square.png",
+        ["./recordings/autocompletion/fig11_first_19.png",
+            "Autocompleted B-rep"],
+        "A"
+    ],
+    [
+        "autocompletion_fig11_first_05",
+        [
+            "/viser-client/",
+            "?playbackPath=/recordings/autocompletion/fig11_first_05.viser",
+            "&initialCameraPosition=0.0,-1.0,1.0",
+            "&initialCameraLookAt=0.0,0.0,0.0",
+        ],
+        "./recordings/autocompletion/fig11_first_19_preview_square.png",
+        ["./recordings/autocompletion/fig11_first_19.png",
             "Autocompleted B-rep"],
         "A"
     ],
