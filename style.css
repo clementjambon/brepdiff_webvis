@@ -156,12 +156,32 @@ code {
 }
 
 .results .video-container img {
-    width: 50rem;
-    max-width: 90vw;
-    max-height: 10vw;
+    /* width: 50rem; */
+    /* max-width: 90vw;
+    max-height: 10vw; */
     margin: 0px;
     display: block;
 }
+
+@media screen and (orientation: landscape) {
+    .results .video-container img {
+        max-width: 90vw;
+        max-height: 10vw;
+        margin: 0px;
+        display: block;
+    }
+}
+
+@media screen and (orientation: portrait) {
+    .results .video-container img {
+        max-width: 90vw;
+        max-height: 20vw;
+        margin: 0px;
+        display: block;
+    }
+}
+
+
 
 .results-inner {
     display: flex;
