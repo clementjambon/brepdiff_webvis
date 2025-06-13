@@ -305,8 +305,8 @@ const results = [
     [
         "autocompletion_fig11_first_19",
         [
-            "/viser-client/",
-            "?playbackPath=/recordings/autocompletion/fig11_first_19.viser",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/autocompletion/fig11_first_19.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
@@ -318,8 +318,8 @@ const results = [
     [
         "autocompletion_fig11_first_05",
         [
-            "/viser-client/",
-            "?playbackPath=/recordings/autocompletion/fig11_first_05.viser",
+            "https://clementjambon.github.io/brepdiff_webvis/viser-client/",
+            "?playbackPath=https://clementjambon.github.io/brepdiff_webvis/recordings/autocompletion/fig11_first_05.viser",
             "&initialCameraPosition=0.0,-1.0,1.0",
             "&initialCameraLookAt=0.0,0.0,0.0",
         ],
